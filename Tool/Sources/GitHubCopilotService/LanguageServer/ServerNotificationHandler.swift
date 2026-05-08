@@ -15,6 +15,7 @@ class ServerNotificationHandlerImpl: ServerNotificationHandler {
     var featureFlagNotifier: FeatureFlagNotifier = FeatureFlagNotifierImpl.shared
     var copilotPolicyNotifier: CopilotPolicyNotifier = CopilotPolicyNotifierImpl.shared
     var compressionHandler: CompressionHandler = CompressionHandlerImpl.shared
+    var rateLimitNotifier: RateLimitNotifier = RateLimitNotifierImpl.shared
 
     init() {
         self.protocolProgressSubject = PassthroughSubject<ProgressParams, Never>()
@@ -65,6 +66,15 @@ class ServerNotificationHandlerImpl: ServerNotificationHandler {
                 if let payload = GitHubCopilotNotification.CompressionCompletedNotification
                     .decode(fromParams: notification.params) {
                     compressionHandler.onCompressionCompleted.send(payload)
+                }
+                break
+            case "$/copilot/rateLimitWarning":
+                if let data = try? JSONEncoder().encode(notification.params),
+                   let params = try? JSONDecoder().decode(
+                    RateLimitWarningParams.self,
+                    from: data
+                   ) {
+                    rateLimitNotifier.handleRateLimitWarning(params)
                 }
                 break
             default:

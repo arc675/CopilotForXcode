@@ -144,7 +144,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Start cleanup in background without waiting
         Task {
-            let quitTask = Task {
+            _ = Task {
                 let service = try? getService()
                 try? await service?.quitService()
             }

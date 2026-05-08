@@ -30,6 +30,7 @@ public struct DisplayedChatMessage: Equatable {
     public var suggestedTitle: String? = nil
     public var errorMessages: [String] = []
     public var steps: [ConversationProgressStep] = []
+    public var thinking: [MessageThinking] = []
     public var editAgentRounds: [AgentRound] = []
     public var parentTurnId: String? = nil
     public var panelMessages: [CopilotShowMessageParams] = []
@@ -50,6 +51,7 @@ public struct DisplayedChatMessage: Equatable {
         suggestedTitle: String? = nil,
         errorMessages: [String] = [],
         steps: [ConversationProgressStep] = [],
+        thinking: [MessageThinking] = [],
         editAgentRounds: [AgentRound] = [],
         parentTurnId: String? = nil,
         panelMessages: [CopilotShowMessageParams] = [],
@@ -69,6 +71,7 @@ public struct DisplayedChatMessage: Equatable {
         self.suggestedTitle = suggestedTitle
         self.errorMessages = errorMessages
         self.steps = steps
+        self.thinking = thinking
         self.editAgentRounds = editAgentRounds
         self.parentTurnId = parentTurnId
         self.panelMessages = panelMessages
@@ -1067,6 +1070,7 @@ struct Chat {
                         suggestedTitle: message.suggestedTitle,
                         errorMessages: message.errorMessages,
                         steps: message.steps,
+                        thinking: message.thinking,
                         editAgentRounds: message.editAgentRounds,
                         parentTurnId: message.parentTurnId,
                         panelMessages: message.panelMessages,
@@ -1230,7 +1234,7 @@ struct Chat {
                 return .none
 
             // MARK: - Code Review
-            case let .codeReview(.request(group)):
+            case .codeReview(.request(_)):
                 return .run { send in
                     await send(.discardCheckPoint)
                 }

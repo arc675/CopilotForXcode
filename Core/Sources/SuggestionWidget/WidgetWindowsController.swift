@@ -844,8 +844,8 @@ extension WidgetWindowsController {
         guard state.isPanelDisplayed,
               let comment = state.currentSelectedComment,
               await currentXcodeApp?.realtimeDocumentURL?.absoluteString == comment.uri,
-              let reviewWindowFittingSize = windows.codeReviewPanelWindow.contentView?.fittingSize
-        else { 
+              windows.codeReviewPanelWindow.contentView?.fittingSize != nil
+        else {
             hideCodeReviewWindow()
             return
         }
@@ -853,7 +853,7 @@ extension WidgetWindowsController {
         guard let originalContent = state.originalContent, 
               let screen = NSScreen.screens.first(where: { $0.frame.origin == .zero }),
               let scrollViewRect = sourceEditorElement.parent?.rect,
-              let scrollScreenFrame = sourceEditorElement.parent?.maxIntersectionScreen?.frame,
+              sourceEditorElement.parent?.maxIntersectionScreen?.frame != nil,
               let currentContent: String = try? sourceEditorElement.copyValue(key: kAXValueAttribute)
         else { return }
         
