@@ -153,5 +153,13 @@ public final class GitHubCopilotConversationService: ConversationServiceType {
                 workspaceFolders: getWorkspaceFolders(workspace: workspace))
             )
     }
+
+    public func generateThinkingTitle(
+        workspace: WorkspaceInfo,
+        params: GenerateThinkingTitleParams
+    ) async throws -> GenerateThinkingTitleResponse? {
+        guard let service = await serviceLocator.getService(from: workspace) else { return nil }
+        return try await service.generateThinkingTitle(params: params)
+    }
 }
 

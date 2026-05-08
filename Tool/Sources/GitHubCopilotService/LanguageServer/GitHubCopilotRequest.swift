@@ -718,6 +718,20 @@ enum GitHubCopilotRequest {
             return .custom("copilot/byok/listApiKeys", dict, ClientRequest.NullHandler)
         }
     }
+
+    // MARK: Thinking
+    struct GenerateThinkingTitle: GitHubCopilotRequestType {
+        typealias Response = GenerateThinkingTitleResponse
+
+        var params: GenerateThinkingTitleParams
+
+        var request: ClientRequest {
+            let data = (try? JSONEncoder().encode(params)) ?? Data()
+            let dict = (try? JSONDecoder().decode(JSONValue.self, from: data)) ?? .hash([:])
+            return .custom("thinking/generateTitle", dict, ClientRequest.NullHandler)
+        }
+    }
+
 }
 
 // MARK: Notifications

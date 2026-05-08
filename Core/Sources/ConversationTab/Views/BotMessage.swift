@@ -21,6 +21,7 @@ struct BotMessage: View {
     var followUp: ConversationFollowUp? { message.followUp }
     var errorMessages: [String] { message.errorMessages }
     var steps: [ConversationProgressStep] { message.steps }
+    var thinking: [MessageThinking] { message.thinking }
     var editAgentRounds: [AgentRound] { message.editAgentRounds }
     var panelMessages: [CopilotShowMessageParams] { message.panelMessages }
     var codeReviewRound: CodeReviewRound? { message.codeReviewRound }
@@ -90,9 +91,16 @@ struct BotMessage: View {
                     // progress step
                     if steps.count > 0 {
                         ProgressStep(steps: steps)
-                        
+
                     }
-                    
+
+                    ForEach(Array(thinking.enumerated()), id: \.offset) { index, entry in
+                        ThinkingView(
+                            thinking: entry,
+                            isStreaming: index == thinking.count - 1 && isThinkingStreaming()
+                        )
+                    }
+
                     if !panelMessages.isEmpty {
                         WithPerceptionTracking {
                             ForEach(panelMessages.indices, id: \.self) { index in
@@ -100,11 +108,11 @@ struct BotMessage: View {
                             }
                         }
                     }
-                    
+
                     if editAgentRounds.count > 0 {
-                        ProgressAgentRound(rounds: editAgentRounds, chat: chat)
+                        ProgressAgentRound(rounds: editAgentRounds, chat: chat, isStreaming: isThinkingStreaming())
                     }
-                    
+
                     if !text.isEmpty {
                         Group{
                             ThemedMarkdownText(text: text, chat: chat)
@@ -240,6 +248,14 @@ struct BotMessage: View {
     private func isLatestAssistantMessage() -> Bool {
         let lastMessage = chat.history.last
         return lastMessage?.role == .assistant && lastMessage?.id == id
+    }
+
+    private func isThinkingStreaming() -> Bool {
+        guard isLatestAssistantMessage(), chat.isReceivingMessage else { return false }
+        switch message.turnStatus {
+        case .success, .error, .cancelled: return false
+        default: return true
+        }
     }
 }
 

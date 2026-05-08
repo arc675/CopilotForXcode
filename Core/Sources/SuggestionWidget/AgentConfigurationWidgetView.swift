@@ -239,7 +239,7 @@ struct AgentConfigurationWidgetView: View {
     }
 
     private func parseYAMLFrontmatter(content: String) -> YAMLFrontmatterInfo {
-        var lines = content.components(separatedBy: .newlines)
+        let lines = content.components(separatedBy: .newlines)
         var inFrontmatter = false
         var frontmatterEndIndex: Int?
         var modelLineIndex: Int?

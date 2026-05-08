@@ -101,6 +101,7 @@ public protocol GitHubCopilotConversationServiceType {
     func models() async throws -> [CopilotModel]
     func registerTools(tools: [LanguageModelToolInformation]) async throws -> [LanguageModelTool]
     func updateToolsStatus(params: UpdateToolsStatusParams) async throws -> [LanguageModelTool]
+    func generateThinkingTitle(params: GenerateThinkingTitleParams) async throws -> GenerateThinkingTitleResponse
 }
 
 protocol GitHubCopilotLSP {
@@ -808,6 +809,11 @@ public final class GitHubCopilotService:
         } catch {
             throw error
         }
+    }
+
+    @GitHubCopilotSuggestionActor
+    public func generateThinkingTitle(params: GenerateThinkingTitleParams) async throws -> GenerateThinkingTitleResponse {
+        try await sendRequest(GitHubCopilotRequest.GenerateThinkingTitle(params: params))
     }
 
     @GitHubCopilotSuggestionActor
