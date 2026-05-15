@@ -1,17 +1,12 @@
-### GitHub Copilot for Xcode 0.48.0
+### GitHub Copilot for Xcode 0.49.0
 
 **🚀 Highlights**
 
-- **Context Window and Auto Compress**: Track context token usage directly from the chat input and automatically compact conversation history to save tokens.
-- **Xcode MCP Server Setup**: Install and connect Xcode's built-in MCP server directly from settings.
-- **General Availability**: Custom agents and the Auto model are now generally available.
+- **Native Anthropic Messages API**: Adds support for the native Anthropic Messages API (`/v1/messages`) endpoint, enabling direct integration with Anthropic-compatible providers.
+- **Thinking in Chat**: Reasoning-capable models can now show their thinking process in chat for greater transparency.
+- **Better Rate Limit Feedback**: Enhanced notifications and error messages help you understand and respond to rate limit events.
 
 **💪 Changes**
 
-- Removed support for macOS 12.
-- Improved UI for model picker tooltips.
-
-**🛠️ Bug Fixes**
-
-- Fixed an issue where GPT-5.4 requests could return a 400 error.
-- Fixed an issue where the MCP allowlist did not work correctly.
+- Refined the tool call item UI in agent progress for a cleaner, more readable layout.
+- Updated Copilot language server to 1.465.5.

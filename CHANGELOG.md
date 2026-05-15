@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.49.0 - May 15, 2026
+### Added
+- Native Anthropic Messages API (`/v1/messages`) endpoint support.
+- Thinking support in chat for reasoning-capable models.
+- Enhanced rate limit notifications and error messages.
+
+### Changed
+- Refined tool call item UI in agent progress: removed border and divider, repositioned chevron, and adjusted spacing for better readability.
+- Updated Copilot language server to 1.465.5.
+
 ## 0.48.0 - April 23, 2026
 ### Added
 - Context window usage details in chat, including a token breakdown for system instructions, messages, attached files, and tool results.
